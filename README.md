@@ -2,7 +2,7 @@
 
 # Kanban board for Android
 
-A simple Kanban board for Android
+A simple ![Kanban](https://en.wikipedia.org/wiki/Kanban) board for Android
 
 ## To Do
 
