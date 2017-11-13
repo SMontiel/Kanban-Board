@@ -20,6 +20,10 @@ public class TaskItem extends AbstractItem<TaskItem, TaskItem.ViewHolder> {
         this.title = new StringHolder(title);
     }
 
+    public TaskItem(Task task) {
+        this(task.getTitle());
+    }
+
     //The unique ID for this type of item
     @Override
     public int getType() {
@@ -29,7 +33,7 @@ public class TaskItem extends AbstractItem<TaskItem, TaskItem.ViewHolder> {
     //The layout to be used for this type of item
     @Override
     public int getLayoutRes() {
-        return R.layout.task_item;
+        return R.layout.item_card;
     }
 
     @Override
@@ -45,7 +49,7 @@ public class TaskItem extends AbstractItem<TaskItem, TaskItem.ViewHolder> {
 
         public ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.title);
+            title = view.findViewById(R.id.card_description);
         }
 
         @Override
