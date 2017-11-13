@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
+import com.smontiel.kanbanboard.data.CardsRepository;
+import com.smontiel.kanbanboard.data.FakeCardsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +21,15 @@ import java.util.List;
  * Created by Salvador Montiel on 11/11/17.
  */
 public class CardsFragment extends Fragment {
-    private static String COLUMN_TITLE = "COLUMN_TITLE";
+    private static String COLUMN_ID = "COLUMN_ID";
     private RecyclerView recyclerView;
     private ItemAdapter<TaskItem> itemAdapter;
 
-    public static CardsFragment getInstance(String title) {
+    private int idColumn;
+
+    public static CardsFragment getInstance(int idColumn) {
         Bundle b = new Bundle();
-        b.putString(COLUMN_TITLE, title);
+        b.putInt(COLUMN_ID, idColumn);
         CardsFragment cf = new CardsFragment();
         cf.setArguments(b);
         return cf;
@@ -34,6 +38,7 @@ public class CardsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        idColumn = getArguments().getInt(COLUMN_ID);
         recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.fragment_card_list, container, false);
         setupRecyclerView(recyclerView);
@@ -50,14 +55,12 @@ public class CardsFragment extends Fragment {
     }
 
     public void setItems() {
-        List<TaskItem> tasks = new ArrayList<>();
-        Task t;
-        for (int j = 0; j < 10; j++) {
-            t = new Task();
-            t.setId("id_" + j);
-            t.setTitle("Task " + j);
-            tasks.add(new TaskItem(t));
+        CardsRepository cr = FakeCardsRepository.getInstance();
+        List<Task> tasks = cr.getTasksFromColumn(idColumn);
+        List<TaskItem> items = new ArrayList<>();
+        for (Task t : tasks) {
+            items.add(new TaskItem(t));
         }
-        itemAdapter.set(tasks);
+        itemAdapter.set(items);
     }
 }

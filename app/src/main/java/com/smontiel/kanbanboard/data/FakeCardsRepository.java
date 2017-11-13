@@ -10,7 +10,6 @@ import java.util.Random;
 /**
  * Created by Salvador Montiel on 13/11/17.
  */
-
 public class FakeCardsRepository implements CardsRepository {
     private static final FakeCardsRepository ourInstance = new FakeCardsRepository();
 
