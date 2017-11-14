@@ -1,22 +1,22 @@
-package com.smontiel.kanbanboard;
+package com.smontiel.kanbanboard.data;
 
 /**
- * Created by Salvador Montiel on 13/11/17.
+ * Created by Salvador Montiel on 8/11/17.
  */
-public class Column {
-    private int id;
+public class Task {
+    private String id;
     private String title;
 
-    public Column(int id, String title) {
+    public Task(String id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

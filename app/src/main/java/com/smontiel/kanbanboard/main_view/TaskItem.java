@@ -1,4 +1,4 @@
-package com.smontiel.kanbanboard;
+package com.smontiel.kanbanboard.main_view;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -7,13 +7,15 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.mikepenz.materialize.holder.StringHolder;
+import com.smontiel.kanbanboard.R;
+import com.smontiel.kanbanboard.data.Task;
 
 import java.util.List;
 
 /**
  * Created by Salvador Montiel on 9/11/17.
  */
-public class TaskItem extends AbstractItem<TaskItem, TaskItem.ViewHolder> {
+class TaskItem extends AbstractItem<TaskItem, TaskItem.ViewHolder> {
     private StringHolder title;
 
     public TaskItem(String title) {

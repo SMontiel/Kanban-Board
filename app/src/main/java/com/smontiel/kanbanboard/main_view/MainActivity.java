@@ -1,4 +1,4 @@
-package com.smontiel.kanbanboard;
+package com.smontiel.kanbanboard.main_view;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.smontiel.kanbanboard.data.CardsRepository;
-import com.smontiel.kanbanboard.data.FakeCardsRepository;
+import com.smontiel.kanbanboard.R;
+import com.smontiel.kanbanboard.data.CardsDataSource;
+import com.smontiel.kanbanboard.data.Column;
+import com.smontiel.kanbanboard.data.fake.FakeCardsDataSource;
 
 /**
  * Created by Salvador Montiel on 8/11/17.
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());
-        CardsRepository repo = FakeCardsRepository.getInstance();
+        CardsDataSource repo = FakeCardsDataSource.getInstance();
 
         for (Column c : repo.getColumns()) {
             adapter.addFragment(CardsFragment.getInstance(c.getId()), c.getTitle());

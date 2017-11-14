@@ -1,4 +1,4 @@
-package com.smontiel.kanbanboard;
+package com.smontiel.kanbanboard.main_view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
-import com.smontiel.kanbanboard.data.CardsRepository;
-import com.smontiel.kanbanboard.data.FakeCardsRepository;
+import com.smontiel.kanbanboard.R;
+import com.smontiel.kanbanboard.data.CardsDataSource;
+import com.smontiel.kanbanboard.data.Task;
+import com.smontiel.kanbanboard.data.fake.FakeCardsDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 /**
  * Created by Salvador Montiel on 11/11/17.
  */
-public class CardsFragment extends Fragment {
+class CardsFragment extends Fragment {
     private static String COLUMN_ID = "COLUMN_ID";
     private RecyclerView recyclerView;
     private ItemAdapter<TaskItem> itemAdapter;
@@ -55,7 +57,7 @@ public class CardsFragment extends Fragment {
     }
 
     public void setItems() {
-        CardsRepository cr = FakeCardsRepository.getInstance();
+        CardsDataSource cr = FakeCardsDataSource.getInstance();
         List<Task> tasks = cr.getTasksFromColumn(idColumn);
         List<TaskItem> items = new ArrayList<>();
         for (Task t : tasks) {
