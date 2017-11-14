@@ -1,4 +1,4 @@
-package com.smontiel.kanbanboard;
+package com.smontiel.kanbanboard.main_view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Salvador Montiel on 11/11/17.
  */
-public class Adapter extends FragmentPagerAdapter {
+class Adapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments = new ArrayList<>();
     private final List<String> mFragmentTitles = new ArrayList<>();
 

@@ -1,7 +1,8 @@
-package com.smontiel.kanbanboard.data;
+package com.smontiel.kanbanboard.data.fake;
 
-import com.smontiel.kanbanboard.Column;
-import com.smontiel.kanbanboard.Task;
+import com.smontiel.kanbanboard.data.Column;
+import com.smontiel.kanbanboard.data.DataSource;
+import com.smontiel.kanbanboard.data.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,14 @@ import java.util.Random;
 /**
  * Created by Salvador Montiel on 13/11/17.
  */
-public class FakeCardsRepository implements CardsRepository {
-    private static final FakeCardsRepository ourInstance = new FakeCardsRepository();
+public class FakeDataSource implements DataSource {
+    private static final FakeDataSource ourInstance = new FakeDataSource();
 
-    public static FakeCardsRepository getInstance() {
+    public static FakeDataSource getInstance() {
         return ourInstance;
     }
 
-    private FakeCardsRepository() {
+    private FakeDataSource() {
     }
 
     @Override
