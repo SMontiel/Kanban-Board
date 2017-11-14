@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Salvador Montiel on 13/11/17.
  */
-public interface CardsDataSource {
+public interface DataSource {
 
     List<Task> getTasksFromColumn(int idColumn);
 

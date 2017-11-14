@@ -1,8 +1,8 @@
 package com.smontiel.kanbanboard.data.fake;
 
 import com.smontiel.kanbanboard.data.Column;
+import com.smontiel.kanbanboard.data.DataSource;
 import com.smontiel.kanbanboard.data.Task;
-import com.smontiel.kanbanboard.data.CardsDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ import java.util.Random;
 /**
  * Created by Salvador Montiel on 13/11/17.
  */
-public class FakeCardsDataSource implements CardsDataSource {
-    private static final FakeCardsDataSource ourInstance = new FakeCardsDataSource();
+public class FakeDataSource implements DataSource {
+    private static final FakeDataSource ourInstance = new FakeDataSource();
 
-    public static FakeCardsDataSource getInstance() {
+    public static FakeDataSource getInstance() {
         return ourInstance;
     }
 
-    private FakeCardsDataSource() {
+    private FakeDataSource() {
     }
 
     @Override
