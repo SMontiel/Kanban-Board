@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+
 /**
  * Created by Salvador Montiel on 13/11/17.
  */
@@ -21,31 +25,35 @@ public class FakeDataSource implements DataSource {
     private FakeDataSource() {}
 
     @Override
-    public List<Task> getTasksFromColumn(int idColumn) {
-        List<Task> list = new ArrayList<>();
-        String title = getTitleFromId(idColumn);
-        for (int i = 0; i < new Random().nextInt(10); i++) {
-            list.add(new Task(""+i, title + " " + (i+1)));
-        }
+    public Observable<List<Task>> getTasksFromColumn(final int idColumn) {
 
-        return list;
+        return getColumns()
+                .filter(new Predicate<Column>() {
+                    @Override
+                    public boolean test(Column column) throws Exception {
+                        return column.getId() == idColumn;
+                    }
+                })
+                .map(new Function<Column, List<Task>>() {
+                    @Override
+                    public List<Task> apply(Column column) throws Exception {
+                        List<Task> list = new ArrayList<>();
+                        for (int i = 0; i < new Random().nextInt(10); i++) {
+                            list.add(new Task(""+i, column.getTitle() + " " + (i+1)));
+                        }
+                        return list;
+                    }
+                });
     }
 
     @Override
-    public List<Column> getColumns() {
-        List<Column> list = new ArrayList<>();
+    public Observable<Column> getColumns() {
+        final List<Column> list = new ArrayList<>();
         list.add(new Column(1, "Backlog"));
         list.add(new Column(2, "ToDo"));
         list.add(new Column(3, "Work in progress"));
         list.add(new Column(4, "Done"));
 
-        return list;
-    }
-
-    private String getTitleFromId(int id) {
-        for (Column c : getColumns()) {
-            if (c.getId() == id) return c.getTitle();
-        }
-        return "Task";
+        return Observable.fromIterable(list);
     }
 }
