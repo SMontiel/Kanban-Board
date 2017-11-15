@@ -28,6 +28,8 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
+    compile 'com.michaelpardo:ollie:0.3.1'
+    provided 'com.michaelpardo:ollie-compiler:0.3.1'
     compile 'com.mikepenz:fastadapter:3.0.1@aar'
     compile 'com.mikepenz:fastadapter-commons:3.0.1@aar'
     compile 'com.mikepenz:materialize:1.1.2@aar'
