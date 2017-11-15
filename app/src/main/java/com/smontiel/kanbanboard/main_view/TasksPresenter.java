@@ -8,6 +8,15 @@ import com.smontiel.kanbanboard.data.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Salvador Montiel on 14/11/17.
  */
@@ -16,12 +25,15 @@ class TasksPresenter implements TasksContract.Presenter {
     private final TasksContract.View columnsView;
     @NonNull
     private final DataSource dataSource;
+    @NonNull
+    private CompositeDisposable compositeDisposable;
 
     public TasksPresenter(@NonNull TasksContract.View columnsView, @NonNull DataSource dataSource) {
         //TODO: Check not null of parameters
         this.columnsView = columnsView;
         this.dataSource = dataSource;
 
+        compositeDisposable = new CompositeDisposable();
         this.columnsView.setPresenter(this);
     }
 
@@ -32,20 +44,41 @@ class TasksPresenter implements TasksContract.Presenter {
 
     @Override
     public void unsubscribe() {
-
+        compositeDisposable.clear();
     }
 
     @Override
     public void loadTasks(int idColumn) {
         columnsView.setLoadingIndicator(true);
 
-        List<Task> tasks = dataSource.getTasksFromColumn(idColumn);
-        List<TaskItem> items = new ArrayList<>();
-        for (Task t : tasks) {
-            items.add(new TaskItem(t));
-        }
+        compositeDisposable.clear();
+        Disposable disposable = dataSource.getTasksFromColumn(idColumn)
+            .flatMap(new Function<List<Task>, ObservableSource<Task>>() {
+                @Override
+                public ObservableSource<Task> apply(List<Task> tasks) throws Exception {
+                    return Observable.fromIterable(tasks);
+                }
+            })
+            .map(new Function<Task, TaskItem>() {
+                @Override
+                public TaskItem apply(Task task) throws Exception {
+                    return new TaskItem(task);
+                }
+            }).toList()
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<List<TaskItem>>() {
+                @Override
+                public void accept(List<TaskItem> taskItems) throws Exception {
+                    columnsView.setLoadingIndicator(false);
+                    columnsView.showTasks(taskItems);
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
 
-        columnsView.showTasks(items);
-        columnsView.setLoadingIndicator(false);
+                }
+            });
+        compositeDisposable.add(disposable);
     }
 }

@@ -1,6 +1,7 @@
 package com.smontiel.kanbanboard.main_view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,23 @@ import com.smontiel.kanbanboard.data.Column;
 import com.smontiel.kanbanboard.data.DataSource;
 import com.smontiel.kanbanboard.data.fake.FakeDataSource;
 
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Salvador Montiel on 8/11/17.
  */
 public class MainActivity extends AppCompatActivity {
+    @NonNull
+    private CompositeDisposable compositeDisposable;
     private Adapter adapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -25,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        compositeDisposable = new CompositeDisposable();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,15 +51,36 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        compositeDisposable.clear();
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());
         DataSource repo = FakeDataSource.getInstance();
 
-        for (Column c : repo.getColumns()) {
-            TasksFragment cf = TasksFragment.newInstance(c.getId());
-            adapter.addFragment(cf, c.getTitle());
-            TasksPresenter presenter = new TasksPresenter(cf, FakeDataSource.getInstance());
-        }
+        compositeDisposable.clear();
+        Disposable disposable = repo.getColumns()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Column>() {
+                    @Override
+                    public void accept(Column column) throws Exception {
+                        TasksFragment cf = TasksFragment.newInstance(column.getId());
+                        adapter.addFragment(cf, column.getTitle());
+                        adapter.notifyDataSetChanged();
+                        TasksPresenter presenter = new TasksPresenter(cf, FakeDataSource.getInstance());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+        compositeDisposable.add(disposable);
+
         viewPager.setAdapter(adapter);
 
         viewPager.setCurrentItem(0);
