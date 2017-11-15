@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * Created by Salvador Montiel on 14/11/17.
  */
-public class CardsPresenter implements CardsContract.Presenter {
+class TasksPresenter implements TasksContract.Presenter {
     @NonNull
-    private final CardsContract.View columnsView;
+    private final TasksContract.View columnsView;
     @NonNull
     private final DataSource dataSource;
 
-    public CardsPresenter(@NonNull CardsContract.View columnsView, @NonNull DataSource dataSource) {
+    public TasksPresenter(@NonNull TasksContract.View columnsView, @NonNull DataSource dataSource) {
         //TODO: Check not null of parameters
         this.columnsView = columnsView;
         this.dataSource = dataSource;

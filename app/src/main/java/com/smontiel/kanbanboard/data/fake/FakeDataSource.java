@@ -18,8 +18,7 @@ public class FakeDataSource implements DataSource {
         return ourInstance;
     }
 
-    private FakeDataSource() {
-    }
+    private FakeDataSource() {}
 
     @Override
     public List<Task> getTasksFromColumn(int idColumn) {

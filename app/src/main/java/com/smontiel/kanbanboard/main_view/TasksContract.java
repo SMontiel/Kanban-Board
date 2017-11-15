@@ -9,16 +9,16 @@ import java.util.List;
  * Created by Salvador Montiel on 14/11/17.
  */
 
-public class CardsContract {
+public class TasksContract {
     interface View extends BaseView<Presenter> {
 
         void setLoadingIndicator(boolean active);
 
         void showTasks(List<TaskItem> tasks);
 
-        /*void showLoadingColumnsError();
+        /*void showLoadingTasksError();
 
-        void showNoColumns();*/
+        void showNoTasks();*/
 
         boolean isActive();
     }

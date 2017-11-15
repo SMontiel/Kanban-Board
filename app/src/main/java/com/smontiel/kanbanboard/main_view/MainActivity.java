@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         }
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -43,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         DataSource repo = FakeDataSource.getInstance();
 
         for (Column c : repo.getColumns()) {
-            CardsFragment cf = CardsFragment.newInstance(c.getId());
+            TasksFragment cf = TasksFragment.newInstance(c.getId());
             adapter.addFragment(cf, c.getTitle());
-            CardsPresenter presenter = new CardsPresenter(cf, FakeDataSource.getInstance());
+            TasksPresenter presenter = new TasksPresenter(cf, FakeDataSource.getInstance());
         }
         viewPager.setAdapter(adapter);
 

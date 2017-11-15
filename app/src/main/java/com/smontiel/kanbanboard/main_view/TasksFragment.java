@@ -12,18 +12,14 @@ import android.view.ViewGroup;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.smontiel.kanbanboard.R;
-import com.smontiel.kanbanboard.data.DataSource;
-import com.smontiel.kanbanboard.data.Task;
-import com.smontiel.kanbanboard.data.fake.FakeDataSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Salvador Montiel on 11/11/17.
  */
-public class CardsFragment extends Fragment implements CardsContract.View {
-    private CardsContract.Presenter presenter;
+public class TasksFragment extends Fragment implements TasksContract.View {
+    private TasksContract.Presenter presenter;
 
     private static String COLUMN_ID = "COLUMN_ID";
     private RecyclerView recyclerView;
@@ -31,10 +27,10 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
     private int idColumn;
 
-    public static CardsFragment newInstance(int idColumn) {
+    public static TasksFragment newInstance(int idColumn) {
         Bundle b = new Bundle();
         b.putInt(COLUMN_ID, idColumn);
-        CardsFragment cf = new CardsFragment();
+        TasksFragment cf = new TasksFragment();
         cf.setArguments(b);
         return cf;
     }
@@ -71,7 +67,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     }
 
     @Override
-    public void setPresenter(CardsContract.Presenter presenter) {
+    public void setPresenter(TasksContract.Presenter presenter) {
         //TODO: check not null
         this.presenter = presenter;
     }
