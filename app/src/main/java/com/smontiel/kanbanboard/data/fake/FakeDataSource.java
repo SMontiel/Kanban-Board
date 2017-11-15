@@ -39,7 +39,8 @@ public class FakeDataSource implements DataSource {
                     public List<Task> apply(Column column) throws Exception {
                         List<Task> list = new ArrayList<>();
                         for (int i = 0; i < new Random().nextInt(10); i++) {
-                            list.add(new Task(""+i, column.getTitle() + " " + (i+1)));
+                            String taskTitle = column.getTitle() + " " + (i+1);
+                            list.add(new Task(i, taskTitle, column.getId()));
                         }
                         return list;
                     }

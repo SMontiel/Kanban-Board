@@ -4,19 +4,21 @@ package com.smontiel.kanbanboard.data;
  * Created by Salvador Montiel on 8/11/17.
  */
 public class Task {
-    private String id;
+    private int id;
     private String title;
+    private int idColumn;
 
-    public Task(String id, String title) {
+    public Task(int id, String title, int idColumn) {
         this.id = id;
         this.title = title;
+        this.idColumn = idColumn;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -26,5 +28,13 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getIdColumn() {
+        return idColumn;
+    }
+
+    public void setIdColumn(int idColumn) {
+        this.idColumn = idColumn;
     }
 }
