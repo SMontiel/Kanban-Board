@@ -19,6 +19,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import com.smontiel.kanbanboard.R;
 import com.smontiel.kanbanboard.data.Column;
 import com.smontiel.kanbanboard.data.DataSource;
+import com.smontiel.kanbanboard.data.Task;
 import com.smontiel.kanbanboard.data.local.LocalDataSource;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -36,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private FloatingActionButton fabAddTask;
 
-    final DataSource dataSource = LocalDataSource.getInstance();
+    private final DataSource dataSource = LocalDataSource.getInstance();
+    private long currentColumn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                currentColumn = adapter.getFragmentIdColumn(tab.getPosition());
                 Log.e("aA", tab.getPosition()+" :Tab " + adapter.getFragmentIdColumn(tab.getPosition()));
-
             }
 
             @Override
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                currentColumn = adapter.getFragmentIdColumn(tab.getPosition());
                 Log.e("aA", tab.getPosition()+" :ReTab " + adapter.getFragmentIdColumn(tab.getPosition()));
             }
         });
@@ -82,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 showAddColumnDialog();
             }
         });
-        FloatingActionButton fabAddTask = findViewById(R.id.fab_add_task);
+        fabAddTask = findViewById(R.id.fab_add_task);
         fabAddTask.setImageDrawable(
                 new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_assignment)
                         .colorRes(android.R.color.white)
         );
+        fabAddTask.setEnabled(false);
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         Log.e("aA", input+"");
-                        //dataSource.addColumn(new Column(input + ""));
+                        Task task = new Task(input + "", currentColumn);
+                        dataSource.addTask(task);
                         setupViewPager(viewPager);
                     }
                 }).show();
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         adapter.addFragment(cf, column.getTitle(), column.getId());
                         TasksPresenter presenter = new TasksPresenter(cf, dataSource);
                         adapter.notifyDataSetChanged();
+                        fabAddTask.setEnabled(true);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
