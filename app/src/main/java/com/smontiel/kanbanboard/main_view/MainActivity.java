@@ -6,12 +6,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.smontiel.kanbanboard.R;
 import com.smontiel.kanbanboard.data.Column;
 import com.smontiel.kanbanboard.data.DataSource;
@@ -67,14 +71,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAddColumn = findViewById(R.id.fab_add_column);
+        fabAddColumn.setImageDrawable(
+                new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_tab)
+                    .colorRes(android.R.color.white)
+                );
+        fabAddColumn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dataSource.addColumn(new Column("Todo"));
-                setupViewPager(viewPager);
+                showAddColumnDialog();
             }
         });
+        FloatingActionButton fabAddTask = findViewById(R.id.fab_add_task);
+        fabAddTask.setImageDrawable(
+                new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_assignment)
+                        .colorRes(android.R.color.white)
+        );
+        fabAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddTaskDialog();
+            }
+        });
+    }
+
+    private void showAddTaskDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Add task")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("ex: Make homework", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        Log.e("aA", input+"");
+                        //dataSource.addColumn(new Column(input + ""));
+                        setupViewPager(viewPager);
+                    }
+                }).show();
+    }
+
+    private void showAddColumnDialog() {
+        new MaterialDialog.Builder(this)
+                .title("Add column")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("ex: Todo", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        Log.e("aA", input+"");
+                        dataSource.addColumn(new Column(input + ""));
+                        setupViewPager(viewPager);
+                    }
+                }).show();
     }
 
     @Override
