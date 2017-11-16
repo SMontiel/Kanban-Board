@@ -25,6 +25,6 @@ public class TasksContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadTasks(int idColumn);
+        void loadTasks(long idColumn);
     }
 }
