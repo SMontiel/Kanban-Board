@@ -9,7 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.smontiel.kanbanboard.R;
 import com.smontiel.kanbanboard.data.Column;
 import com.smontiel.kanbanboard.data.DataSource;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
+    final DataSource dataSource = LocalDataSource.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,32 @@ public class MainActivity extends AppCompatActivity {
         }
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.e("aA", tab.getPosition()+" :Tab " + adapter.getFragmentIdColumn(tab.getPosition()));
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.e("aA", tab.getPosition()+" :UnTab " + adapter.getFragmentIdColumn(tab.getPosition()));
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.e("aA", tab.getPosition()+" :ReTab " + adapter.getFragmentIdColumn(tab.getPosition()));
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataSource.addColumn(new Column("Todo"));
+                setupViewPager(viewPager);
+            }
+        });
     }
 
     @Override
@@ -55,18 +85,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());
-        final DataSource repo = LocalDataSource.getInstance();
 
         compositeDisposable.clear();
-        Disposable disposable = repo.getColumns()
+        Disposable disposable = dataSource.getColumns()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Column>() {
                     @Override
                     public void accept(Column column) throws Exception {
                         TasksFragment cf = TasksFragment.newInstance(column.getId());
-                        adapter.addFragment(cf, column.getTitle());
-                        TasksPresenter presenter = new TasksPresenter(cf, repo);
+                        adapter.addFragment(cf, column.getTitle(), column.getId());
+                        TasksPresenter presenter = new TasksPresenter(cf, dataSource);
                         adapter.notifyDataSetChanged();
                     }
                 }, new Consumer<Throwable>() {
