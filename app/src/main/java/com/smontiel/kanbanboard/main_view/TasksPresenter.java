@@ -48,17 +48,11 @@ class TasksPresenter implements TasksContract.Presenter {
     }
 
     @Override
-    public void loadTasks(int idColumn) {
+    public void loadTasks(long idColumn) {
         columnsView.setLoadingIndicator(true);
 
         compositeDisposable.clear();
         Disposable disposable = dataSource.getTasksFromColumn(idColumn)
-            .flatMap(new Function<List<Task>, ObservableSource<Task>>() {
-                @Override
-                public ObservableSource<Task> apply(List<Task> tasks) throws Exception {
-                    return Observable.fromIterable(tasks);
-                }
-            })
             .map(new Function<Task, TaskItem>() {
                 @Override
                 public TaskItem apply(Task task) throws Exception {

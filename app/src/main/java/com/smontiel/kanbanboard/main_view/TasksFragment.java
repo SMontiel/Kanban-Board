@@ -25,11 +25,11 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     private RecyclerView recyclerView;
     private ItemAdapter<TaskItem> itemAdapter;
 
-    private int idColumn;
+    private long idColumn;
 
-    public static TasksFragment newInstance(int idColumn) {
+    public static TasksFragment newInstance(long idColumn) {
         Bundle b = new Bundle();
-        b.putInt(COLUMN_ID, idColumn);
+        b.putLong(COLUMN_ID, idColumn);
         TasksFragment cf = new TasksFragment();
         cf.setArguments(b);
         return cf;
@@ -38,7 +38,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        idColumn = getArguments().getInt(COLUMN_ID);
+        idColumn = getArguments().getLong(COLUMN_ID);
         recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.fragment_card_list, container, false);
         setupRecyclerView(recyclerView);
