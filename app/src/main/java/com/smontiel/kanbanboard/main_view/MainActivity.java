@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());
-        DataSource repo = FakeDataSource.getInstance();
+        final DataSource repo = FakeDataSource.getInstance();
 
         compositeDisposable.clear();
         Disposable disposable = repo.getColumns()
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         TasksFragment cf = TasksFragment.newInstance(column.getId());
                         adapter.addFragment(cf, column.getTitle());
                         adapter.notifyDataSetChanged();
-                        TasksPresenter presenter = new TasksPresenter(cf, FakeDataSource.getInstance());
+                        TasksPresenter presenter = new TasksPresenter(cf, repo);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
