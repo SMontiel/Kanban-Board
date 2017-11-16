@@ -1,15 +1,13 @@
 package com.smontiel.kanbanboard.main_view;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.smontiel.kanbanboard.data.DataSource;
 import com.smontiel.kanbanboard.data.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -59,7 +57,7 @@ class TasksPresenter implements TasksContract.Presenter {
                     return new TaskItem(task);
                 }
             }).toList()
-            .subscribeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<List<TaskItem>>() {
                 @Override
@@ -70,7 +68,7 @@ class TasksPresenter implements TasksContract.Presenter {
             }, new Consumer<Throwable>() {
                 @Override
                 public void accept(Throwable throwable) throws Exception {
-
+                    Log.e("aA", throwable + " : getTasksFromColumn()");
                 }
             });
         compositeDisposable.add(disposable);

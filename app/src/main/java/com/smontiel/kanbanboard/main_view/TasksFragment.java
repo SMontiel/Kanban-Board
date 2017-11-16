@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.fragment_card_list, container, false);
         setupRecyclerView(recyclerView);
+
         return recyclerView;
     }
 

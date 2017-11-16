@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -58,20 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
         compositeDisposable.clear();
         Disposable disposable = repo.getColumns()
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Column>() {
                     @Override
                     public void accept(Column column) throws Exception {
                         TasksFragment cf = TasksFragment.newInstance(column.getId());
                         adapter.addFragment(cf, column.getTitle());
-                        adapter.notifyDataSetChanged();
                         TasksPresenter presenter = new TasksPresenter(cf, repo);
+                        adapter.notifyDataSetChanged();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        Log.e("aA", throwable + " : getColumns()");
                     }
                 });
         compositeDisposable.add(disposable);
