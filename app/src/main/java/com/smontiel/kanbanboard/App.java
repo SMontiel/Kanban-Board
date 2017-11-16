@@ -18,7 +18,7 @@ public class App extends Application {
         super.onCreate();
 
         this.context = this.getApplicationContext();
-        
+
         Ollie.with(context)
                 .setName("Kanban.db")
                 .setVersion(DB_VERSION)
