@@ -11,6 +11,8 @@ public interface DataSource {
 
     void addColumn(Column column);
 
+    void addTask(Task task);
+
     Observable<Task> getTasksFromColumn(long idColumn);
 
     Observable<Column> getColumns();

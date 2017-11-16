@@ -31,6 +31,11 @@ public class FakeDataSource implements DataSource {
     }
 
     @Override
+    public void addTask(Task task) {
+        throw new IllegalStateException("No implementado");
+    }
+
+    @Override
     public Observable<Task> getTasksFromColumn(final long idColumn) {
 
         return getColumns()

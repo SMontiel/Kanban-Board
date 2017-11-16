@@ -33,6 +33,17 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void addTask(Task task) {
+        ColumnEntity ce = Select.from(ColumnEntity.class)
+                .where("_id = ?", task.getIdColumn())
+                .fetchSingle();
+        TaskEntity te = new TaskEntity();
+        te.title = task.getTitle();
+        te.column = ce;
+        te.save();
+    }
+
+    @Override
     public Observable<Task> getTasksFromColumn(long idColumn) {
         return Select.from(TaskEntity.class)
                 .where("id_column = ?", idColumn)
