@@ -35,7 +35,7 @@ public class LocalDataSource implements DataSource {
     @Override
     public Observable<Task> getTasksFromColumn(long idColumn) {
         return Select.from(TaskEntity.class)
-                .where("id_column", idColumn)
+                .where("id_column = ?", idColumn)
                 .observable()
                 .flatMap(new Function<List<TaskEntity>, ObservableSource<TaskEntity>>() {
                     @Override
