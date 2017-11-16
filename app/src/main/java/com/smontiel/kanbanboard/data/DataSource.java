@@ -9,7 +9,9 @@ import io.reactivex.Observable;
  */
 public interface DataSource {
 
-    Observable<List<Task>> getTasksFromColumn(int idColumn);
+    void addColumn(Column column);
+
+    Observable<Task> getTasksFromColumn(long idColumn);
 
     Observable<Column> getColumns();
 }

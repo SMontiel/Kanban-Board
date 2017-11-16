@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
@@ -25,7 +26,12 @@ public class FakeDataSource implements DataSource {
     private FakeDataSource() {}
 
     @Override
-    public Observable<List<Task>> getTasksFromColumn(final int idColumn) {
+    public void addColumn(Column column) {
+        throw new IllegalStateException("No implementado");
+    }
+
+    @Override
+    public Observable<Task> getTasksFromColumn(final long idColumn) {
 
         return getColumns()
                 .filter(new Predicate<Column>() {
@@ -43,6 +49,11 @@ public class FakeDataSource implements DataSource {
                             list.add(new Task(i, taskTitle, column.getId()));
                         }
                         return list;
+                    }
+                }).flatMap(new Function<List<Task>, ObservableSource<Task>>() {
+                    @Override
+                    public ObservableSource<Task> apply(List<Task> tasks) throws Exception {
+                        return Observable.fromIterable(tasks);
                     }
                 });
     }
