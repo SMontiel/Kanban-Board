@@ -34,39 +34,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        app:fab_colorNormal="@color/colorAccent">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            app:fab_colorNormal="@color/colorAccent"
-            app:fab_label="Add task"
-            app:fab_size="mini"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_column"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            app:fab_colorNormal="@color/colorAccent"
-            app:fab_label="Add column"
-            app:fab_size="mini"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
+    <include layout="@layout/part_fab_menu"/>
 
 </android.support.design.widget.CoordinatorLayout>

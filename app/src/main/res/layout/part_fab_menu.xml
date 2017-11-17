@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.clans.fab.FloatingActionMenu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fab_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom|end"
+    android:paddingBottom="@dimen/fab_margin"
+    android:paddingLeft="@dimen/fab_margin"
+    android:paddingRight="@dimen/fab_margin"
+    android:paddingEnd="@dimen/fab_margin"
+    android:elevation="6dp"
+    app:menu_showShadow="true"
+    app:menu_backgroundColor="#33FFFFFF"
+    app:menu_colorNormal="@color/colorAccent">
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        app:fab_colorNormal="@color/colorAccent"
+        app:fab_label="Add task"
+        app:fab_size="mini"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_add_column"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        app:fab_colorNormal="@color/colorAccent"
+        app:fab_label="Add column"
+        app:fab_size="mini"/>
+
+</com.github.clans.fab.FloatingActionMenu>
