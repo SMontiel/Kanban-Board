@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.smontiel.kanbanboard.R;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FloatingActionButton fabAddTask;
+    private FloatingActionMenu fabMenu;
 
     private final DataSource dataSource = LocalDataSource.getInstance();
     private long currentColumn;
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fabMenu = findViewById(R.id.fab_menu);
+        fabMenu.setClosedOnTouchOutside(true);
         FloatingActionButton fabAddColumn = findViewById(R.id.fab_add_column);
         fabAddColumn.setImageDrawable(
                 new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_tab)
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddColumn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fabMenu.toggle(true);
                 showAddColumnDialog();
             }
         });
@@ -95,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fabMenu.toggle(true);
                 showAddTaskDialog();
             }
         });
