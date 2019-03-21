@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="fastadapter_taskitem_id" type="id">111</item>
-    <item name="fastadapter_columnitem_id" type="id">222</item>
+    <item name="fastadapter_taskitem_id" type="id" />
+    <item name="fastadapter_columnitem_id" type="id" />
 </resources>
