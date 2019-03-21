@@ -8,7 +8,6 @@ import ollie.Ollie;
 /**
  * Created by Salvador Montiel on 15/11/17.
  */
-
 public class App extends Application {
     private static final int DB_VERSION = 1;
     private static Context context;
